@@ -1,101 +1,97 @@
-import Image from "next/image";
+// pages/index.js
+import Image from 'next/image';
+import Head from 'next/head';
+import Footer from './components/home/Footer';
+import TestimonialsSection from './components/home/TestimonialSection';
+import ContactForm from './components/home/ContactForm';
+// import HeroSection from './components/home/HeroSection';
+
+
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <main className="max-w-[1500px] mx-auto px-6">  
+     <Head>
+        <title>FutureShujaa - Empowering Students with Tech Skills</title>
+        <meta
+          name="description"
+          content="An E-learning platform to provide tech skills to students in informal settlements in Kenya."
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      {/* <HeroSection/> */}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <main className="p-8">
+      <section className="mb-12 flex flex-col items-center justify-center py-12 bg-white">
+  <div className="container mx-auto px-6 text-center md:text-left md:flex md:items-center md:justify-between">
+    <div className="md:w-1/2">
+      <h2 className="text-3xl font-semibold text-airbnb mb-6">About Us</h2>
+      <p className="text-lg text-gray-700 leading-relaxed">
+        FutureShujaa is an innovative e-learning platform designed to deliver tech skills
+        training to students in informal settlements across Kenya. Our mission is to bridge
+        the digital literacy gap and empower underserved communities with tools for economic
+        and social advancement.
+      </p>
     </div>
+    {/* Right: Image */}
+    <div className="mt-8 md:mt-0 md:w-1/2">
+      <img
+        src="/kenya.jpeg"  
+        alt="Kenya"
+        className="w-full h-auto object-cover rounded-lg"
+      />
+    </div>
+  </div>
+</section>
+
+<section className="mb-12 flex flex-col items-center justify-center py-12 bg-white">
+  <div className="container mx-auto px-6 text-center md:text-left md:flex md:items-center md:justify-between">
+    {/* Left: Image */}
+    <div className="md:w-1/2">
+      <img
+        src="/robot.jpeg"  
+        alt="Robot"
+        className="w-full h-auto object-cover rounded-lg"
+      />
+    </div>
+    <div className="mt-8 ml-6 md:mt-0 md:w-1/2">
+      <h2 className="text-3xl font-semibold text-airbnb mb-6">Our Vision</h2>
+      <p className="text-lg text-gray-700 leading-relaxed">
+        To create an equitable society by enabling access to quality digital education and
+        reducing youth unemployment through scalable, interactive e-learning solutions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section className="mb-12 flex flex-col items-center justify-center py-12 bg-white">
+  <div className="container mx-auto px-6 text-center md:text-left md:flex md:items-center md:justify-between">
+    <div className="md:w-1/2">
+      <h2 className="text-3xl font-semibold text-airbnb mb-6">Our Objectives</h2>
+      <ul className="list-disc pl-6 space-y-2 text-lg text-gray-700">
+        <li>Empower students in informal settlements with market-relevant digital skills.</li>
+        <li>Bridge the gap caused by teacher shortages and outdated educational resources.</li>
+      </ul>
+    </div>
+    {/* Right: Image */}
+    <div className="mt-8 md:mt-0 md:w-1/2">
+      <img
+        src="/lion.jpeg" 
+        alt="Lion"
+        className="w-full h-auto object-cover rounded-lg"
+      />
+    </div>
+  </div>
+</section>
+
+
+    <TestimonialsSection />
+    <ContactForm />
+  </main>
+      <Footer />
+
+    </main>
   );
 }
+
