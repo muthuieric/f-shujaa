@@ -5,14 +5,14 @@ import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import Modal from './Modal';
 import CustomButton from '../forms/CustomButton';
-import Categories from '../addproperty/Categories';
+import Categories from '../addcourse/Categories';
 
-import useAddCourseModal from '@/app/hooks/useAddPropertyModal';
+import useAddCourseModal from '@/app/hooks/useAddCourseModal';
 
 import apiService from '@/app/services/apiService';
 import { useRouter } from 'next/navigation';
 
-const AddPropertyModal = () => {
+const AddCourseModal = () => {
     //
     // States
 
@@ -45,7 +45,7 @@ const AddPropertyModal = () => {
     }
 
     //
-    // SUbmit
+    // Submit
 
     const submitForm = async () => {
         console.log('submitForm');
@@ -62,7 +62,7 @@ const AddPropertyModal = () => {
             formData.append('description', dataDescription);
             formData.append('image', dataImage);
 
-            const response = await apiService.post('/api/properties/create/', formData);
+            const response = await apiService.post('/api/courses/create/', formData);
 
             if (response.success) {
                 console.log('SUCCESS :-D');
@@ -201,4 +201,4 @@ const AddPropertyModal = () => {
     )
 }
 
-export default AddPropertyModal;
+export default AddCourseModal;

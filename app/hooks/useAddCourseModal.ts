@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-interface AddPropertyModalStore {
+interface AddCourseModalStore {
     isOpen: boolean;
     open: () => void;
     close: () => void;
 }
 
-const useAddCourseModal = create<AddPropertyModalStore>((set) => ({
+const useAddCourseModal = create<AddCourseModalStore>((set) => ({
     isOpen: false,
     open: () => set({ isOpen: true }),
     close: () => set({ isOpen: false })

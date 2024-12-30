@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import UserNav from './UserNav';
 import { getUserId } from '@/app/lib/actions';
-import AddPropertyButton from './AddCourseButton';
+import AddCourseButton from './AddCourseButton';
 
 const Navbar = async () => {
     const userId = await getUserId();
@@ -22,7 +22,7 @@ const Navbar = async () => {
 
                    
                     <div className="flex items-center space-x-6">
-                        <AddPropertyButton 
+                        <AddCourseButton 
                             userId={userId}
                         />
 

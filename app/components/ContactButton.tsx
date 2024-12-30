@@ -6,27 +6,28 @@ import apiService from "../services/apiService";
 
 interface ContactButtonProps {
     userId: string | null;
-    landlordId: string;
+    instructorId: string; // Changed landlordId to instructorId
 }
 
 const ContactButton: React.FC<ContactButtonProps> = ({
     userId,
-    landlordId
+    instructorId // Changed landlordId to instructorId
 }) => {
     const loginModal = useLoginModal();
     const router = useRouter();
 
     const startConversation = async () => {
         if (userId) {
-            const conversation = await apiService.get(`/api/chat/start/${landlordId}/`)
+            // API call updated to start a conversation with an instructor
+            const conversation = await apiService.get(`/api/chat/start/${instructorId}/`);
 
             if (conversation.conversation_id) {
-                router.push(`/inbox/${conversation.conversation_id}`)
+                router.push(`/inbox/${conversation.conversation_id}`);
             }
         } else {
             loginModal.open();
         }
-    }
+    };
 
     return (
         <div 
@@ -35,7 +36,7 @@ const ContactButton: React.FC<ContactButtonProps> = ({
         >
             Contact
         </div>
-    )
+    );
 }
 
 export default ContactButton;

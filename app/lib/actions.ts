@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers';
 
+// Handle refresh token logic
 export async function handleRefresh() {
     console.log('handleRefresh');
 
@@ -18,11 +19,12 @@ export async function handleRefresh() {
         }
     })
         .then(response => response.json())
-        .then((json) => {
+        .then(async (json) => { // Make sure to handle this asynchronously
             console.log('Response - Refresh:', json);
 
             if (json.access) {
-                cookies().set('session_access_token', json.access, {
+                // Await cookies().set since it's an async operation
+                await cookies().set('session_access_token', json.access, {
                     httpOnly: true,
                     secure: false,
                     maxAge: 60 * 60, // 60 minutes
@@ -31,34 +33,35 @@ export async function handleRefresh() {
 
                 return json.access;
             } else {
-                resetAuthCookies();
+                // Reset cookies if no access token is returned
+                await resetAuthCookies();
             }
         })
-        .catch((error) => {
+        .catch(async (error) => {  // Make sure to handle error asynchronously
             console.log('error', error);
-
-            resetAuthCookies();
+            await resetAuthCookies();
         })
 
     return token;
 }
 
+// Handle login and set cookies
 export async function handleLogin(userId: string, accessToken: string, refreshToken: string) {
-    cookies().set('session_userid', userId, {
+    await cookies().set('session_userid', userId, {
         httpOnly: true,
         secure: false,
         maxAge: 60 * 60 * 24 * 7, // One week
         path: '/'
     });
 
-    cookies().set('session_access_token', accessToken, {
+    await cookies().set('session_access_token', accessToken, {
         httpOnly: true,
         secure: false,
         maxAge: 60 * 60, // 60 minutes
         path: '/'
     });
 
-    cookies().set('session_refresh_token', refreshToken, {
+    await cookies().set('session_refresh_token', refreshToken, {
         httpOnly: true,
         secure: false,
         maxAge: 60 * 60 * 24 * 7, // One week
@@ -66,22 +69,41 @@ export async function handleLogin(userId: string, accessToken: string, refreshTo
     });
 }
 
+// Reset authentication cookies
 export async function resetAuthCookies() {
-    cookies().set('session_userid', '');
-    cookies().set('session_access_token', '');
-    cookies().set('session_refresh_token', '');
+    // Await the cookie removal process to ensure proper execution
+    await cookies().set('session_userid', '', {
+        httpOnly: true,
+        secure: false,
+        maxAge: 0, // This will delete the cookie
+        path: '/'
+    });
+
+    await cookies().set('session_access_token', '', {
+        httpOnly: true,
+        secure: false,
+        maxAge: 0, // This will delete the cookie
+        path: '/'
+    });
+
+    await cookies().set('session_refresh_token', '', {
+        httpOnly: true,
+        secure: false,
+        maxAge: 0, // This will delete the cookie
+        path: '/'
+    });
 }
 
-//
-// Get data
-
+// Get user ID from cookies
 export async function getUserId() {
-    const userId = cookies().get('session_userid')?.value
-    return userId ? userId : null
+    // Await the cookies().get to ensure the operation is asynchronous
+    const userId = await cookies().get('session_userid')?.value;
+    return userId ? userId : null;
 }
 
+// Get access token, or refresh it if necessary
 export async function getAccessToken() {
-    let accessToken = cookies().get('session_access_token')?.value;
+    let accessToken = await cookies().get('session_access_token')?.value;
 
     if (!accessToken) {
         accessToken = await handleRefresh();
@@ -90,8 +112,8 @@ export async function getAccessToken() {
     return accessToken;
 }
 
+// Get refresh token from cookies
 export async function getRefreshToken() {
-    let refreshToken = cookies().get('session_refresh_token')?.value;
-
+    const refreshToken = await cookies().get('session_refresh_token')?.value;
     return refreshToken;
 }

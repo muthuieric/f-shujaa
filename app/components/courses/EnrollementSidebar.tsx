@@ -1,12 +1,10 @@
 'use client';
 
-import {useState, useEffect} from 'react';
-import {Range} from 'react-date-range';
-import { differenceInDays, eachDayOfInterval, format} from 'date-fns';
+import { useState, useEffect } from 'react';
+import { Range } from 'react-date-range';
 import apiService from '@/app/services/apiService';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation'; // Correct for Next.js 13+ with App Router
-
 
 const initialDateRange = {
     startDate: new Date(),
@@ -14,50 +12,49 @@ const initialDateRange = {
     key: 'selection'
 }
 
-export type Property ={
+export type Course = {
     id: string;
-    guests: number;
-    price_per_night: number;
+    seats: number;
+    price_per_day: number;
 }
 
-interface ReservationSidebarProps {
+interface EnrollmentSidebarProps {
     userId: string | null,
-    property: Property
+    course: Course
 }
 
-const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
-    property,
+const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({
+    course,
     userId
 }) => {
     const loginModal = useLoginModal();
     const router = useRouter(); // Initialize router here
 
-
     const [fee, setFee] = useState<number>(0);
-    const [nights, setNights] = useState<number>(1);
+    const [days, setDays] = useState<number>(1);
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const [dateRange, setDateRange] = useState<Range>(initialDateRange);
     const [minDate, setMinDate] = useState<Date>(new Date());
     const [bookedDates, setBookedDates] = useState<Date[]>([]);
-    const [guests, setGuests] = useState<string>('1');
-    const guestsRange = Array.from({ length: property.guests }, (_, index) => index + 1)
+    const [participants, setParticipants] = useState<string>('1');
+    const participantsRange = Array.from({ length: course.seats }, (_, index) => index + 1)
 
-    const performBooking = async () => {
-        console.log('performBooking', userId);
+    const performEnrollment = async () => {
+        console.log('performEnrollment', userId);
 
         if (userId) {
             if (dateRange.startDate && dateRange.endDate) {
                 const formData = new FormData();
-                formData.append('guests', guests);
+                formData.append('participants', participants);
                 formData.append('start_date', format(dateRange.startDate, 'yyyy-MM-dd'));
                 formData.append('end_date', format(dateRange.endDate, 'yyyy-MM-dd'));
-                formData.append('number_of_nights', nights.toString());
+                formData.append('number_of_days', days.toString());
                 formData.append('total_price', totalPrice.toString());
 
-                const response = await apiService.post(`/api/properties/${property.id}/book/`, formData);
+                const response = await apiService.post(`/api/courses/${course.id}/enroll/`, formData);
 
                 if (response.success) {
-                    console.log('Bookin successful')
+                    console.log('Enrollment successful');
                 } else {
                     console.log('Something went wrong...');
                 }
@@ -65,20 +62,17 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
         } else {
             loginModal.open();
         }
-        
     }
 
-
-   
-    const getReservations = async () => {
-        const reservations = await apiService.get(`/api/properties/${property.id}/reservations/`)
+    const getEnrollments = async () => {
+        const enrollments = await apiService.get(`/api/courses/${course.id}/enrollments/`)
 
         let dates: Date[] = [];
 
-        reservations.forEach((reservation: any) => {
+        enrollments.forEach((enrollment: any) => {
             const range = eachDayOfInterval({
-                start: new Date(reservation.start_date),
-                end: new Date(reservation.end_date)
+                start: new Date(enrollment.start_date),
+                end: new Date(enrollment.end_date)
             });
 
             dates = [...dates, ...range];
@@ -88,31 +82,30 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
     }
 
     useEffect(() => {
-        getReservations();
-        
+        getEnrollments();
+
         if (dateRange.startDate && dateRange.endDate) {
             const dayCount = differenceInDays(
                 dateRange.endDate,
                 dateRange.startDate
             );
 
-            if (dayCount && property.price_per_night) {
-                const _fee = ((dayCount * property.price_per_night) / 100) * 5;
+            if (dayCount && course.price_per_day) {
+                const _fee = ((dayCount * course.price_per_day) / 100) * 5;
 
                 setFee(_fee);
-                setTotalPrice((dayCount * property.price_per_night) + _fee);
-                setNights(dayCount);
+                setTotalPrice((dayCount * course.price_per_day) + _fee);
+                setDays(dayCount);
             } else {
-                const _fee = (property.price_per_night / 100) * 5;
+                const _fee = (course.price_per_day / 100) * 5;
 
                 setFee(_fee);
-                setTotalPrice(property.price_per_night + _fee);
-                setNights(1);
+                setTotalPrice(course.price_per_day + _fee);
+                setDays(1);
             }
         }
     }, [dateRange])
-    
-   
+
     const handleNavigation = () => {
         if (userId) {
             // Navigate to the next page if authenticated
@@ -122,18 +115,15 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
             loginModal.open();
         }
     };
-    
-    
 
     return (
         <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">
-          
 
             <div 
-                onClick={performBooking}
+                onClick={performEnrollment}
                 className="w-full mb-6 py-6 text-center text-white bg-airbnb hover:bg-airbnb-dark rounded-xl"
             >
-                Book
+                Enroll
             </div>
             <div 
                 onClick={handleNavigation}
@@ -142,14 +132,9 @@ const ReservationSidebar: React.FC<ReservationSidebarProps> = ({
                 Start
             </div>
 
-          
-          
-
             <hr />
-
-           
         </aside>
     )
 }
 
-export default ReservationSidebar;
+export default EnrollmentSidebar;

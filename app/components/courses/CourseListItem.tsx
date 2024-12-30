@@ -1,15 +1,15 @@
 import Image from "next/image";
-import { PropertyType } from "./PropertyList";
+import { CourseType } from "./CourseList";
 import { useRouter } from "next/navigation";
 import FavoriteButton from "../FavoriteButton";
 
-interface PropertyProps {
-    property: PropertyType,
+interface CourseProps {
+    course: CourseType;
     markFavorite?: (is_favorite: boolean) => void;
 }
 
-const PropertyListItem: React.FC<PropertyProps> = ({
-    property,
+const CourseListItem: React.FC<CourseProps> = ({
+    course,
     markFavorite
 }) => {
     const router = useRouter();
@@ -17,33 +17,31 @@ const PropertyListItem: React.FC<PropertyProps> = ({
     return (
         <div 
             className="cursor-pointer"
-            onClick={() => router.push(`/properties/${property.id}`)}
+            onClick={() => router.push(`/courses/${course.id}`)}
         >
             <div className="relative overflow-hidden aspect-square rounded-xl">
                 <Image
                     fill
-                    src={property.image_url}
+                    src={course.image_url}
                     sizes="(max-width: 768px) 768px, (max-width: 1200px): 768px, 768px"
                     className="hover:scale-110 object-cover transition h-full w-full"
-                    alt="Beach house"
+                    alt="Course thumbnail"
                 />
 
                 {markFavorite && (
                     <FavoriteButton
-                        id={property.id}
-                        is_favorite={property.is_favorite}
+                        id={course.id}
+                        is_favorite={course.is_favorite}
                         markFavorite={(is_favorite) => markFavorite(is_favorite)}
                     />
                 )}
             </div>
 
             <div className="mt-2">
-                <p className="text-lg font-bold">{property.title}</p>
+                <p className="text-lg font-bold">{course.title}</p>
             </div>
-
-           
         </div>
-    )
+    );
 }
 
-export default PropertyListItem;
+export default CourseListItem;

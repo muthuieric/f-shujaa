@@ -1,21 +1,21 @@
 'use client';
 
 import useLoginModal from "@/app/hooks/useLoginModal";
-import useAddPropertyModal from "@/app/hooks/useAddPropertyModal";
+import useAddCourseModal from "@/app/hooks/useAddCourseModal";
 
-interface AddPropertyButtonProps {
+interface AddCourseButtonProps {
     userId?: string | null;
 }
 
-const AddPropertyButton: React.FC<AddPropertyButtonProps> = ({
+const AddCourseButton: React.FC<AddCourseButtonProps> = ({
     userId
 }) => {
     const loginModal = useLoginModal();
-    const addPropertyModal = useAddPropertyModal();
+    const addCourseModal = useAddCourseModal();
 
-    const airbnbYourHome = () => {
+    const handleAddCourse = () => {
         if (userId) {
-            addPropertyModal.open()
+            addCourseModal.open();
         } else {
             loginModal.open();
         }
@@ -23,12 +23,12 @@ const AddPropertyButton: React.FC<AddPropertyButtonProps> = ({
 
     return (
         <div 
-            onClick={airbnbYourHome}
+            onClick={handleAddCourse}
             className="p-2 cursor-pointer text-sm font-semibold rounded-full hover:bg-gray-200"
         >
             Add Course
         </div>
-    )
+    );
 }
 
-export default AddPropertyButton;
+export default AddCourseButton;

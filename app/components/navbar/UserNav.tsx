@@ -21,7 +21,7 @@ const UserNav: React.FC<UserNavProps> = ({
     const signupModal = useSignupModal();
     const [isOpen, setIsOpen] = useState(false)
 
-    console.log('asdf', userId)
+    console.log('userId:', userId)
 
     return (
         <div className="p-2 relative inline-block border rounded-full">
@@ -42,11 +42,11 @@ const UserNav: React.FC<UserNavProps> = ({
                 <div className="w-[220px] absolute top-[60px] right-0 bg-white border rounded-xl shadow-md flex flex-col cursor-pointer">
                     {userId ? (
                         <>
-                              <MenuLink
+                            <MenuLink
                                 label='Courses'
                                 onClick={() => {
                                     setIsOpen(false);
-                                    router.push('/courses');
+                                    router.push('/course');
                                 }}
                             />
                             
@@ -59,15 +59,15 @@ const UserNav: React.FC<UserNavProps> = ({
                             />
 
                             <MenuLink
-                                label='My courses'
+                                label='My Courses'
                                 onClick={() => {
                                     setIsOpen(false);
-                                    router.push('/myproperties');
+                                    router.push('/mycourses');
                                 }}
                             />
 
                             <MenuLink
-                                label='My favorites'
+                                label='My Favorites'
                                 onClick={() => {
                                     setIsOpen(false);
                                     router.push('/myfavorites');
@@ -75,10 +75,10 @@ const UserNav: React.FC<UserNavProps> = ({
                             />
 
                             <MenuLink
-                                label='My learning'
+                                label='Enrolled Courses'
                                 onClick={() => {
                                     setIsOpen(false);
-                                    router.push('/myreservations');
+                                    router.push('/myenrollments');
                                 }}
                             />
 
@@ -90,7 +90,7 @@ const UserNav: React.FC<UserNavProps> = ({
                                 label='Courses'
                                 onClick={() => {
                                     setIsOpen(false);
-                                    router.push('/courses');
+                                    router.push('/course');
                                 }}
                             />
                 
