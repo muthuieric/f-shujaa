@@ -99,7 +99,7 @@ const ContactForm: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-2 mt-4 text-white font-semibold rounded-md ${isSubmitting ? 'bg-gray-400' : 'bg-airbnb hover:bg-airbnb-dark'}`}
+            className={`w-full py-2 mt-4 text-white font-semibold rounded-md ${isSubmitting ? 'bg-gray-400' : 'bg-shujaa hover:bg-shujaa-dark'}`}
           >
             {isSubmitting ? 'Submitting...' : 'Send Message'}
           </button>

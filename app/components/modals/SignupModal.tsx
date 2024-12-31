@@ -63,7 +63,7 @@ const SignupModal = () => {
                     return (
                         <div 
                             key={`error_${index}`}
-                            className="p-5 bg-airbnb text-white rounded-xl opacity-80"
+                            className="p-5 bg-shujaa text-white rounded-xl opacity-80"
                         >
                             {error}
                         </div>

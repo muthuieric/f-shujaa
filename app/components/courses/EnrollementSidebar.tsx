@@ -81,14 +81,14 @@ const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({ course, userId })
 
             <div
                 onClick={performEnrollment}
-                className="w-full mb-6 py-6 text-center text-white bg-airbnb hover:bg-airbnb-dark rounded-xl"
+                className="w-full mb-6 py-6 text-center text-white bg-shujaa hover:bg-shujaa-dark rounded-xl"
             >
                 Enroll
             </div>
 
             <div
                 onClick={handleNavigation}
-                className="w-full mb-6 py-6 text-center text-white bg-airbnb hover:bg-airbnb-dark rounded-xl"
+                className="w-full mb-6 py-6 text-center text-white bg-shujaa hover:bg-shujaa-dark rounded-xl"
             >
                 Start
             </div>

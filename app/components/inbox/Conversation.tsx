@@ -21,7 +21,7 @@ const Conversation: React.FC<ConversationProps> = ({
 
             <p 
                 onClick={() => router.push(`/inbox/${conversation.id}`)}
-                className="text-airbnb-dark"
+                className="text-shujaa-dark"
             >
                 Go to conversation
             </p>

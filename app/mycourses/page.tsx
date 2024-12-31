@@ -10,7 +10,7 @@ const MyCoursesPage = async () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <CourseList 
-                    instructor_id={userId} // Pass the userId as the instructor_id
+                    instructor_id={userId} 
                 />
             </div>
         </main>

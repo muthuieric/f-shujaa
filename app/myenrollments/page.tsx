@@ -29,7 +29,7 @@ const MyEnrollmentsPage = async () => {
 
                                 <Link 
                                     href={`/courses/${enrollment.course.id}`}
-                                    className="mt-6 inline-block cursor-pointer py-4 px-6 bg-airbnb text-white rounded-xl"
+                                    className="mt-6 inline-block cursor-pointer py-4 px-6 bg-shujaa text-white rounded-xl"
                                 >
                                     Go to course
                                 </Link>

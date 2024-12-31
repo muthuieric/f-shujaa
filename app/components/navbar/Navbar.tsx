@@ -17,7 +17,7 @@ const Navbar = async () => {
                 <div className="flex justify-between items-center">
                     <Link href="/">
                         <p className="text-gray-800 font-bold text-4xl ">
-                        F-<span className="text-airbnb">Shujaa</span>
+                        F-<span className="text-shujaa hover:text-shujaa-dark">Shujaa</span>
                         </p>
                     </Link>
 

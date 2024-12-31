@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
         <div className="p-2">
           <ul>
             <p className="text-gray-800 font-bold text-xl pb-4">
-              F-<span className="text-airbnb">Shujaa</span>
+              F-<span className="text-shujaa hover:text-shujaa-dark">Shujaa</span>
             </p>
             <div className="flex gap-4 pb-3">
               <FaInstagram className="text-xl cursor-pointer hover:text-fuchsia-800" />
@@ -22,13 +22,13 @@ const Footer: React.FC = () => {
         <div className="p-2">
           <ul>
             <p className="text-gray-800 font-bold text-lg pb-2">Sections</p>
-            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-airbnb-dark cursor-pointer">
+            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-shujaa-dark cursor-pointer">
               Home
             </li>
-            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-airbnb-dark cursor-pointer">
+            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-shujaa-dark cursor-pointer">
               About
             </li>
-            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-airbnb-dark cursor-pointer">
+            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-shujaa-dark cursor-pointer">
               User Testimonials
             </li>
           </ul>
@@ -36,10 +36,10 @@ const Footer: React.FC = () => {
         <div className="p-2">
           <ul>
             <p className="text-gray-800 font-bold text-lg pb-2">Contact Us</p>
-            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-airbnb-dark cursor-pointer">
+            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-shujaa-dark cursor-pointer">
               Email: futureshujaa@gmail.com
             </li>
-            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-airbnb-dark cursor-pointer">
+            <li className="text-gray-500 text-sm pb-1 font-semibold hover:text-shujaa-dark cursor-pointer">
               Phone: 0726123512
             </li>
           </ul>

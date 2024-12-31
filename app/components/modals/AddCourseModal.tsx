@@ -167,7 +167,7 @@ const AddCourseModal = () => {
                         return (
                             <div
                                 key={index}
-                                className='p-5 mb-4 bg-airbnb text-white rounded-xl opacity-80'
+                                className='p-5 mb-4 bg-shujaa text-white rounded-xl opacity-80'
                             >
                                 {error}
                             </div>
