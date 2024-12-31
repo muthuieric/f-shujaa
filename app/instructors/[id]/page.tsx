@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import ContactButton from "@/app/components/ContactButton";
-import CourseList from "@/app/components/course/CourseList";
+import CourseList from "@/app/components/courses/CourseList";
 import apiService from "@/app/services/apiService";
 import { getUserId } from "@/app/lib/actions";
 

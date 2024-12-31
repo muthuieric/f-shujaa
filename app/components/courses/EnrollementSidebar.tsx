@@ -64,48 +64,8 @@ const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({
         }
     }
 
-    const getEnrollments = async () => {
-        const enrollments = await apiService.get(`/api/courses/${course.id}/enrollments/`)
 
-        let dates: Date[] = [];
-
-        enrollments.forEach((enrollment: any) => {
-            const range = eachDayOfInterval({
-                start: new Date(enrollment.start_date),
-                end: new Date(enrollment.end_date)
-            });
-
-            dates = [...dates, ...range];
-        })
-
-        setBookedDates(dates);
-    }
-
-    useEffect(() => {
-        getEnrollments();
-
-        if (dateRange.startDate && dateRange.endDate) {
-            const dayCount = differenceInDays(
-                dateRange.endDate,
-                dateRange.startDate
-            );
-
-            if (dayCount && course.price_per_day) {
-                const _fee = ((dayCount * course.price_per_day) / 100) * 5;
-
-                setFee(_fee);
-                setTotalPrice((dayCount * course.price_per_day) + _fee);
-                setDays(dayCount);
-            } else {
-                const _fee = (course.price_per_day / 100) * 5;
-
-                setFee(_fee);
-                setTotalPrice(course.price_per_day + _fee);
-                setDays(1);
-            }
-        }
-    }, [dateRange])
-
+   
     const handleNavigation = () => {
         if (userId) {
             // Navigate to the next page if authenticated
