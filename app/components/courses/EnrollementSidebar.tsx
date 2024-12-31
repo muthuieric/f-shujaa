@@ -1,91 +1,92 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Range } from 'react-date-range';
 import apiService from '@/app/services/apiService';
 import useLoginModal from '@/app/hooks/useLoginModal';
 import { useRouter } from 'next/navigation'; // Correct for Next.js 13+ with App Router
 
-const initialDateRange = {
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection'
-}
-
 export type Course = {
     id: string;
-    seats: number;
-    price_per_day: number;
-}
+};
 
 interface EnrollmentSidebarProps {
-    userId: string | null,
-    course: Course
+    userId: string | null;
+    course: Course;
 }
 
-const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({
-    course,
-    userId
-}) => {
+const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({ course, userId }) => {
     const loginModal = useLoginModal();
-    const router = useRouter(); // Initialize router here
+    const router = useRouter();
 
-    const [fee, setFee] = useState<number>(0);
-    const [days, setDays] = useState<number>(1);
-    const [totalPrice, setTotalPrice] = useState<number>(0);
-    const [dateRange, setDateRange] = useState<Range>(initialDateRange);
-    const [minDate, setMinDate] = useState<Date>(new Date());
-    const [bookedDates, setBookedDates] = useState<Date[]>([]);
-    const [participants, setParticipants] = useState<string>('1');
-    const participantsRange = Array.from({ length: course.seats }, (_, index) => index + 1)
+    const [enrollments, setEnrollments] = useState<any[]>([]);
+
+    // Fetch enrollments for the course
+    useEffect(() => {
+        const fetchEnrollments = async () => {
+            try {
+                const response = await apiService.get(`/api/courses/${course.id}/enrollments/`);
+                setEnrollments(response);
+            } catch (error) {
+                console.error('Error fetching enrollments:', error);
+            }
+        };
+
+        fetchEnrollments();
+    }, [course.id]);
 
     const performEnrollment = async () => {
-        console.log('performEnrollment', userId);
-
-        if (userId) {
-            if (dateRange.startDate && dateRange.endDate) {
-                const formData = new FormData();
-                formData.append('participants', participants);
-                formData.append('start_date', format(dateRange.startDate, 'yyyy-MM-dd'));
-                formData.append('end_date', format(dateRange.endDate, 'yyyy-MM-dd'));
-                formData.append('number_of_days', days.toString());
-                formData.append('total_price', totalPrice.toString());
-
-                const response = await apiService.post(`/api/courses/${course.id}/enroll/`, formData);
-
-                if (response.success) {
-                    console.log('Enrollment successful');
-                } else {
-                    console.log('Something went wrong...');
-                }
-            }
-        } else {
+        if (!userId) {
             loginModal.open();
+            return;
         }
-    }
 
+        try {
+            const response = await apiService.post(`/api/courses/${course.id}/enroll/`, {});
+            if (response.success) {
+                console.log('Enrollment successful');
+                setEnrollments((prev) => [...prev, response.enrollment]); // Add new enrollment to the list
+            } else {
+                console.error('Enrollment failed:', response.detail);
+            }
+        } catch (error) {
+            console.error('Error during enrollment:', error);
+        }
+    };
 
-   
     const handleNavigation = () => {
         if (userId) {
-            // Navigate to the next page if authenticated
             router.push('/excel');
         } else {
-            // Open the login modal if not authenticated
             loginModal.open();
         }
     };
 
     return (
         <aside className="mt-6 p-6 col-span-2 rounded-xl border border-gray-300 shadow-xl">
+            <div className="mb-6">
+                <h3 className="text-xl font-bold">Enrolled Participants:</h3>
+                {enrollments.length > 0 ? (
+                   <ul>
+                   {enrollments.map((enrollment) => (
+                       <li key={enrollment.id || enrollment.course.id || Math.random()}>
+                           {enrollment.course.title}
+                       </li>
+                   ))}
+               </ul>
+               
+                ) : (
+                    <p>No enrollments yet.</p>
+                )}
+            </div>
 
-            <div 
+            <div
                 onClick={performEnrollment}
                 className="w-full mb-6 py-6 text-center text-white bg-airbnb hover:bg-airbnb-dark rounded-xl"
             >
                 Enroll
             </div>
-            <div 
+
+            <div
                 onClick={handleNavigation}
                 className="w-full mb-6 py-6 text-center text-white bg-airbnb hover:bg-airbnb-dark rounded-xl"
             >
@@ -94,7 +95,7 @@ const EnrollmentSidebar: React.FC<EnrollmentSidebarProps> = ({
 
             <hr />
         </aside>
-    )
-}
+    );
+};
 
 export default EnrollmentSidebar;

@@ -1,7 +1,7 @@
 import Categories from "../components/Categories";
 import CourseList from "../components/courses/CourseList";
 
-export default function Home() {
+export default function Course() {
   return (
     <main className="max-w-[1500px] mx-auto px-6">
       <Categories />
