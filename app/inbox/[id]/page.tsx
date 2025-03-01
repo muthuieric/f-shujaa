@@ -1,49 +1,81 @@
-'use client'; // Mark the component as a Client Component
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { getUserId, getAccessToken } from "../../lib/actions";
-import apiService from "@/app/services/apiService";
-import ConversationDetail from "@/app/components/inbox/ConversationDetail";
+import React, { useState, useEffect } from 'react';
+import { getUserId, getAccessToken } from '../../lib/actions';
+import apiService from '@/app/services/apiService';
+import ConversationDetail from '@/app/components/inbox/ConversationDetail';
 
-const ConversationPage = ({ params }: { params: { id: string } }) => {
+export type MessageType = {
+    id: string;
+    name: string;
+    body: string;
+    conversationId: string;
+    sent_to: UserType;
+    created_by: UserType;
+};
+
+export type UserType = {
+    id: string;
+    name: string;
+    avatar_url: string;
+};
+
+export type ConversationType = {
+    id: string;
+    users: UserType[];
+    messages: MessageType[];  // Add this line to reflect messages
+
+};
+
+interface ConversationPageProps {
+    params: { id: string };
+}
+
+const ConversationPage: React.FC<ConversationPageProps> = ({ params }) => {
     const [userId, setUserId] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [conversation, setConversation] = useState<any>(null); // Adjust the type as per your API response
+    const [conversation, setConversation] = useState<ConversationType | null>(null);
+
+    // Unwrap the params object using React.use() to access params.id
+    const { id } = React.use(params);
 
     useEffect(() => {
         const fetchData = async () => {
-            const user = await getUserId();
+            const userId = await getUserId();
             const authToken = await getAccessToken();
-            setUserId(user);
+            if (!userId || !authToken) {
+                return;
+            }
+            setUserId(userId);
             setToken(authToken);
 
-            if (user && authToken) {
-                const conversationData = await apiService.get(`/api/chat/${params.id}/`);
+            try {
+                const conversationData = await apiService.get(`/api/chat/${id}/`);
                 setConversation(conversationData);
+            } catch (error) {
+                console.error('Error fetching conversation data:', error);
             }
         };
 
         fetchData();
-    }, [params.id]);
+    }, [id]); // Ensure `id` is used as the dependency
 
-    if (!userId || !token) {
+    if (!conversation || !token || !userId) {
         return (
-            <main className="max-w-[1500px] max-auto px-6 py-12">
-                <p>You need to be authenticated...</p>
+            <main className="max-w-[1500px] mx-auto px-6 py-12">
+                <p>No conversation or user data found. Please log in.</p>
             </main>
         );
     }
 
     return (
         <main className="max-w-[1500px] mx-auto px-6 pb-6">
-            {conversation && (
-                <ConversationDetail
-                    token={token}
-                    userId={userId}
-                    messages={conversation.messages}
-                    conversation={conversation.conversation}
-                />
-            )}
+            <ConversationDetail
+                token={token}
+                userId={userId}
+                messages={conversation.messages}
+                conversation={conversation}
+            />
         </main>
     );
 };
